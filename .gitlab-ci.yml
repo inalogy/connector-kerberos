@@ -8,17 +8,36 @@ cache:
   paths:
     - .m2/repository
 
+services:
+  - name: valtri/kerberos:latest
+    alias: kerberos-server
+
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true
   MAVEN_CLI_OPTS: --batch-mode --errors -DinstallAtEnd=true -DdeployAtEnd=true
+  ADMIN_KEY: $KRB5_ADMIN_KEY
+  REALM: TEST.ORG
 
 build:
   script:
     - >
+      mvn $MAVEN_CLI_OPTS verify -s $CI_SETTINGS;
+
+      sed \
+        -e "s/@REALM@/$REALM/g" \
+        -e "s/@KDC_SERVER@/kerberos-server/g" \
+        src/test/resources/krb5.conf.in > /etc/krb5.conf;
+      cat /etc/krb5.conf;
+      f=cz.zcu.KerberosConnector/config/config.groovy;
+      sed -i \
+        -e "0,/principal=/ s,principal=.*,principal=\"admin/admin@$REALM\"," \
+        -e "0,/password=/ s,\"password\",password=\"$ADMIN_KEY\"," \
+        -e "0,/realm=/ s,realm=.*,realm=\"$REALM\"," \
+        target/test-classes/${f};
+      mvn $MAVEN_CLI_OPTS test -s $CI_SETTINGS -P -mock -Dtest=cz.zcu.KerberosConnectorTests#createTest;
+
       if [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" -o -n "$CI_COMMIT_TAG" ]; then
         mvn $MAVEN_CLI_OPTS deploy -s $CI_SETTINGS;
-      else
-        mvn $MAVEN_CLI_OPTS verify -s $CI_SETTINGS;
       fi
   artifacts:
     paths:
