@@ -19,7 +19,7 @@
 
 	<issueManagement>
 		<system>GitHub Issues</system>
-		<url>https://github.com/CESNET/kerberos-connector/issues</url>
+		<url>https://github.com/CESNET/connector-kerberos/issues</url>
 	</issueManagement>
 	<scm>
 		<connection>scm:git:https://ipmil.civ.zcu.cz/midpoint/connector-kerberos.git</connection>

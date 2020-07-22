@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/CESNET/kerberos-connector.svg?branch=master)](https://travis-ci.org/CESNET/kerberos-connector)
-[![Coverage Status](https://coveralls.io/repos/github/CESNET/kerberos-connector/badge.svg?branch=master)](https://coveralls.io/github/CESNET/kerberos-connector?branch=master)
+[![Build Status](https://travis-ci.org/CESNET/connector-kerberos.svg?branch=master)](https://travis-ci.org/CESNET/connector-kerberos)
+[![Coverage Status](https://coveralls.io/repos/github/CESNET/connector-kerberos/badge.svg?branch=master)](https://coveralls.io/github/CESNET/connector-kerberos?branch=master)
 
 
 # Kerberos Connector
