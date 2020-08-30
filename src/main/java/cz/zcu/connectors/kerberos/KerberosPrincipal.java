@@ -89,6 +89,19 @@ public class KerberosPrincipal {
 	}
 
 	/**
+	 * Get value from the attribute and convert it into epoch in seconds.
+	 *
+	 * Note: null is converted to 0.
+	 *
+	 * @param attr
+	 * @return epoch time in seconds for using in Kerberos
+	 */
+	private long getEpochFromAttr(Attribute attr) {
+		Long value = AttributeUtil.getLongValue(attr);
+		return value == null ? 0 : value / 1000;
+	}
+
+	/**
 	 * Kerberos principal object constructor
 	 *
 	 * @param attrs ConnId attributes
@@ -104,21 +117,22 @@ public class KerberosPrincipal {
 		attr = AttributeUtil.find(OperationalAttributes.DISABLE_DATE_NAME, attrs);
 		princExpiry = 0;
 		if (attr != null) {
-			princExpiry = AttributeUtil.getLongValue(attr) / 1000;
+			princExpiry = getEpochFromAttr(attr);
 			updateMask |= KerberosPrincipal.MASK_PRINC_EXPIRE_TIME;
 		}
 
 		attr = AttributeUtil.find(OperationalAttributes.PASSWORD_EXPIRATION_DATE_NAME, attrs);
 		pwdExpiry = 0;
 		if (attr != null) {
-			pwdExpiry = AttributeUtil.getLongValue(attr) / 1000;
+			pwdExpiry = getEpochFromAttr(attr);
 			updateMask |= KerberosPrincipal.MASK_PW_EXPIRATION;
 		}
 
 		attr = AttributeUtil.find(ATTR_ATTRIBUTES, attrs);
 		attributes = new KerberosFlags(0);
 		if (attr != null) {
-			attributes.setAttributes(AttributeUtil.getIntegerValue(attr));
+			Integer value = AttributeUtil.getIntegerValue(attr);
+			attributes.setAttributes(value == null ? 0 : value);
 			updateMask |= KerberosPrincipal.MASK_ATTRIBUTES;
 		}
 
@@ -132,14 +146,14 @@ public class KerberosPrincipal {
 		attr = AttributeUtil.find(ATTR_MAX_TICKET_LIFE, attrs);
 		maxTicketLife = 0;
 		if (attr != null) {
-			maxTicketLife = AttributeUtil.getLongValue(attr) / 1000;
+			maxTicketLife = getEpochFromAttr(attr);
 			updateMask |= KerberosPrincipal.MASK_MAX_LIFE;
 		}
 
 		attr = AttributeUtil.find(ATTR_MAX_RENEWABLE_LIFE, attrs);
 		maxRenewableLife = 0;
 		if (attr != null) {
-			maxRenewableLife = AttributeUtil.getLongValue(attr) / 1000;
+			maxRenewableLife = getEpochFromAttr(attr);
 			updateMask |= KerberosPrincipal.MASK_MAX_RLIFE;
 		}
 	}
