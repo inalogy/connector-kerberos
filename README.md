@@ -39,7 +39,7 @@ Steps:
     mkdir target
     cd target
     cmake ../jni
-	make
+    make
 
 ...and then move *libkerberos-connector.so* to the path, where *java.library.path* points.
 
@@ -148,7 +148,7 @@ Debug logs can be enabled:
 ### Enable core dumps
 
     echo 'core' > /proc/sys/kernel/core_pattern
-	ulimit -c unlimited
+    ulimit -c unlimited
 
 ### Build without tests
 
