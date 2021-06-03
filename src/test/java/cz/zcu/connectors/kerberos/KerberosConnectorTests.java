@@ -104,8 +104,10 @@ public class KerberosConnectorTests {
 		co = facade.getObject(KerberosPrincipal.OBJECT_CLASS, new Uid(principal), null);
 		Assert.assertNotNull(co);
 		long validTo = AttributeUtil.getLongValue(co.getAttributeByName(OperationalAttributes.DISABLE_DATE_NAME));
+		long expire = AttributeUtil.getLongValue(co.getAttributeByName("expire"));
 		long maxLife2 = AttributeUtil.getLongValue(co.getAttributeByName("maxTicketLife"));
 		long maxRenew2 = AttributeUtil.getLongValue(co.getAttributeByName("maxRenewableLife"));
+		Assert.assertEquals(validTo, expire);
 		Assert.assertEquals(precRound(validTo, 2 * 1000), precRound(princExpire, 2 * 1000));
 		Assert.assertEquals(precRound(maxLife2, 2 * 1000), precRound(maxLife, 2 * 1000));
 		Assert.assertEquals(precRound(maxRenew2, 2 * 1000), precRound(maxRenew, 2 * 1000));
@@ -481,7 +483,7 @@ public class KerberosConnectorTests {
 		Set<Attribute> updateAttributes = new HashSet<Attribute>();
 		updateAttributes.add(AttributeBuilder.build("allowTix"));
 		facade.update(KerberosPrincipal.OBJECT_CLASS, testUid, updateAttributes, null);
-    }
+	}
 
 	@Test
 	public void updateLife() {

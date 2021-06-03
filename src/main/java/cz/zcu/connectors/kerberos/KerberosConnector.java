@@ -358,6 +358,9 @@ public class KerberosConnector implements PoolableConnector, CreateOp, DeleteOp,
 		attributes.add(OperationalAttributeInfos.PASSWORD);
 		attributes.add(OperationalAttributeInfos.PASSWORD_EXPIRATION_DATE);
 
+		attributes.add(AttributeInfoBuilder.build(KerberosPrincipal.ATTR_EXPIRE,
+				long.class));
+
 		attributes.add(AttributeInfoBuilder.build(KerberosPrincipal.ATTR_PASSWORD_CHANGE_DATE,
 				long.class, EnumSet.of(Flags.NOT_CREATABLE, Flags.NOT_UPDATEABLE)));
 

@@ -25,6 +25,7 @@ public class KerberosPrincipal {
 	public static final String ATTR_MODIFY_PRINCIPAL = "modifyPrincipal";
 	public static final String ATTR_MODIFY_DATE = "modifyDate";
 	public static final String ATTR_ATTRIBUTES = "attributes";
+	public static final String ATTR_EXPIRE = "expire";
 	public static final String ATTR_POLICY = "policy";
 	public static final String ATTR_MAX_TICKET_LIFE = "maxTicketLife";
 	public static final String ATTR_MAX_RENEWABLE_LIFE = "maxRenewableLife";
@@ -114,8 +115,10 @@ public class KerberosPrincipal {
 		lastLoginDate = 0;
 		lastFailedDate = 0;
 
-		attr = AttributeUtil.find(OperationalAttributes.DISABLE_DATE_NAME, attrs);
 		princExpiry = 0;
+		attr = AttributeUtil.find(OperationalAttributes.DISABLE_DATE_NAME, attrs);
+		if (attr == null)
+			attr = AttributeUtil.find(ATTR_EXPIRE, attrs);
 		if (attr != null) {
 			princExpiry = getEpochFromAttr(attr);
 			updateMask |= KerberosPrincipal.MASK_PRINC_EXPIRE_TIME;
@@ -232,8 +235,10 @@ public class KerberosPrincipal {
 		builder.addAttribute(OperationalAttributes.ENABLE_NAME, enabled());
 		if (pwdExpiry != 0)
 			builder.addAttribute(OperationalAttributes.PASSWORD_EXPIRATION_DATE_NAME, 1000 * pwdExpiry);
-		if (princExpiry != 0)
+		if (princExpiry != 0) {
 			builder.addAttribute(OperationalAttributes.DISABLE_DATE_NAME, 1000 * princExpiry);
+			builder.addAttribute(ATTR_EXPIRE, 1000 * princExpiry);
+		}
 		if (pwdChange != 0)
 			builder.addAttribute(ATTR_PASSWORD_CHANGE_DATE, 1000 * pwdChange);
 		builder.addAttribute(ATTR_MODIFY_PRINCIPAL, modifyPrincipal);

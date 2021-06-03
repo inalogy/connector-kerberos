@@ -52,7 +52,7 @@ Operational attributes:
 * **name** (NAME): principal name with the realm suffix
 * **UID** (UID, read-only): the same as **name**
 * **administrativeStatus** (ENABLE): true if enabled, mapped also to **attributes** and **allowTix**
-* **validTo** (DISABLE\_DATE)
+* **validTo** (DISABLE\_DATE): mapped also to **expire**
 * **password** (PASSWORD)
 * **passwordExpirationDate** (PASSWORD\_EXPIRATION\_DATE)
 
@@ -61,6 +61,7 @@ Attributes:
 * **passwordChangeDate** (long)
 * **lastLoginDate** (long)
 * **lastFailedDate** (long)
+* **expire** (long): principal expiration
 * **attributes** (int): all Kerberos principal flags as integer mask
 * **policy** (string)
 * **modifyPrincipal** (string)
@@ -96,6 +97,8 @@ Update is translated to the proper rename, change password, or modify Kadm5 libr
 
 * particular flag attributes has precedence over *attributes*
 * enable/disable state has precedence over *allowTix*
+
+**Expire**: Disable date operational attribute has precedence over *expire*
 
 #### Paged Search
 
