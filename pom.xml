@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>connector-kerberos</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Kerberos Connector</name>
@@ -25,11 +25,11 @@
 		<connection>scm:git:https://ipmil.civ.zcu.cz/midpoint/connector-kerberos.git</connection>
 		<developerConnection>scm:git:git@ipmil.civ.zcu.cz:midpoint/connector-kerberos.git</developerConnection>
 		<url>https://ipmil.civ.zcu.cz/midpoint/connector-kerberos</url>
-		<tag>HEAD</tag>
+		<tag>2.0.0</tag>
 	</scm>
 
 	<properties>
-		<argLine></argLine>
+		<argLine />
 		<bundle.version>2.0</bundle.version>
 		<connectorPackage>cz.zcu.connectors.kerberos</connectorPackage>
 		<connectorClass>KerberosConnector</connectorClass>
