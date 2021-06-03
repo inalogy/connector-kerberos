@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.identityconnectors.framework.common.exceptions.InvalidAttributeValueException;
+
 import cz.zcu.connectors.kerberos.exceptions.KerberosException;
 
 /**
@@ -60,10 +62,12 @@ public class KerberosFlags {
 	 *  @param flag principal flag name
 	 *  @param value principal flag value
 	 */
-	public void setFlag(String flag, boolean value) throws KerberosException {
+	public void setFlag(String flag, Boolean value) throws KerberosException {
 		int mask;
 		boolean set;
 
+		if (value == null)
+			throw new InvalidAttributeValueException("flag cannot be null (" + flag +")");
 		switch(flag) {
 		case KerberosPrincipal.ATTR_ALLOW_TIX:
 			mask = MASK_DISALLOW_ALL_TIX;

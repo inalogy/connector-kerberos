@@ -8,6 +8,7 @@ import org.identityconnectors.framework.api.APIConfiguration;
 import org.identityconnectors.framework.api.ConnectorFacade;
 import org.identityconnectors.framework.api.ConnectorFacadeFactory;
 import org.identityconnectors.framework.common.exceptions.AlreadyExistsException;
+import org.identityconnectors.framework.common.exceptions.InvalidAttributeValueException;
 import org.identityconnectors.framework.common.exceptions.UnknownUidException;
 import org.identityconnectors.framework.common.objects.Attribute;
 import org.identityconnectors.framework.common.objects.AttributeBuilder;
@@ -468,6 +469,19 @@ public class KerberosConnectorTests {
 		Assert.assertEquals(co.getAttributeByName("attributes").getValue().get(0), mask);
 		Assert.assertEquals(co.getAttributeByName("requiresPwchange").getValue().get(0), true);
 	}
+
+	@Test(expectedExceptions = InvalidAttributeValueException.class)
+	public void updateNullFlagTest() {
+		logger.info("Running Update Null Flag Test");
+
+		final String principal = "update-test@" + realm;
+		Uid testUid = new Uid(principal);
+		final ConnectorFacade facade = getFacade(KerberosConnector.class, null);
+
+		Set<Attribute> updateAttributes = new HashSet<Attribute>();
+		updateAttributes.add(AttributeBuilder.build("allowTix"));
+		facade.update(KerberosPrincipal.OBJECT_CLASS, testUid, updateAttributes, null);
+    }
 
 	@Test
 	public void updateLife() {
