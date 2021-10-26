@@ -54,7 +54,7 @@ build-debian10:
   artifacts: *artifacts-deb
 
 build-debian11:
-  image: valtri/build-ubuntu:bullseye-jni
+  image: valtri/build-debian:bullseye-jni
   before_script: *deps-apt
   script: *script-deb
   artifacts: *artifacts-deb
