@@ -53,6 +53,12 @@ build-debian10:
       (cd target/jni; cpack -G DEB);
   artifacts: *artifacts-deb
 
+build-debian11:
+  image: valtri/build-debian:bullseye-jni
+  before_script: *deps-apt
+  script: *script-deb
+  artifacts: *artifacts-deb
+
 build-ubuntu18:
   image: valtri/build-ubuntu:bionic-jni
   before_script: *deps-apt
