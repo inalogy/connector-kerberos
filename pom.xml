@@ -33,6 +33,9 @@
 		<bundle.version>2.0</bundle.version>
 		<connectorPackage>cz.zcu.connectors.kerberos</connectorPackage>
 		<connectorClass>KerberosConnector</connectorClass>
+		<!-- compability with older systems -->
+		<project.source.version>1.8</project.source.version>
+		<project.target.version>1.8</project.target.version>
 	</properties>
 
 	<repositories>
