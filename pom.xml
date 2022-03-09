@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>cz.zcu.connectors</groupId>
 		<artifactId>connector-parent</artifactId>
-		<version>1.5.0.10-z7</version>
+		<version>1.5.0.18-z1</version>
 		<relativePath />
 	</parent>
 
