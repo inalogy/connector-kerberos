@@ -6,23 +6,6 @@ variables:
   MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true
   MAVEN_CLI_OPTS: --batch-mode --errors -DinstallAtEnd=true -DdeployAtEnd=true
 
-build-centos8:
-  image: valtri/build-centos:8-jni
-  before_script: &deps-dnf
-    - dnf install -y file krb5-devel rpm-build
-  script: &script-rpm
-    - >
-      mvn $MAVEN_CLI_OPTS verify -s $CI_SETTINGS;
-      (cd target/jni; cpack -G RPM);
-  artifacts: &artifacts-rpm
-    paths:
-      - pom.xml
-      - target/*.jar
-      - target/maven-archiver/*.properties
-      - target/jni/kerberos-connector*.*.rpm
-      - target/jni/kerberos-connector*.tar.*
-      - target/jni/libkerberos-connector.so
-
 build-debian9:
   image: valtri/build-debian:stretch-jni
   before_script: &deps-apt
